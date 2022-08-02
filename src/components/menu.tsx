@@ -14,9 +14,9 @@ import SportsEsportsOutlinedIcon from "@mui/icons-material/SportsEsportsOutlined
 import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
 import VideoLibraryOutlinedIcon from "@mui/icons-material/VideoLibraryOutlined";
 import { FC } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import hectortube from "../img/logo.png";
-import {Link} from "react-router-dom";
 interface IMenu {}
 
 const Menu: FC<IMenu> = () => {
@@ -109,6 +109,8 @@ const Container = styled.div`
   height: 100%;
   color: white;
   font-size: 14px;
+  position: sticky;
+  top: 0;
 `;
 
 const Wrapper = styled.div`
