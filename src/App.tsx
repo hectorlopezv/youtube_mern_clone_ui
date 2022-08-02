@@ -5,6 +5,7 @@ import "./App.css";
 import Menu from "./components/menu";
 import Navbar from "./components/navbar";
 import Home from "./pages/home";
+import SignIn from "./pages/signIn";
 import Video from "./pages/videos";
 import { darkTheme, lightTheme } from "./utils/theme";
 
@@ -22,8 +23,10 @@ function App() {
               <Routes>
                 <Route path="/">
                   <Route index element={<Home />} />
+
+                  <Route path="signin" element={<SignIn />} />
                   <Route path="video">
-                    <Route path=":id" element={<Video/>} />
+                    <Route path=":id" element={<Video />} />
                   </Route>
                 </Route>
               </Routes>
