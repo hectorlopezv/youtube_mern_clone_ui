@@ -30,10 +30,13 @@ const Menu: FC<IMenu> = ({ setTheme, theme }) => {
   return (
     <Container>
       <Wrapper>
-        <Logo>
-          <Image src={hectortube} />
-          HectorTube
-        </Logo>
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <Logo>
+            <Image src={hectortube} />
+            HectorTube
+          </Logo>
+        </Link>
+
         <Item>
           <HomeIcon />
           Home
