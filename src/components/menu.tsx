@@ -8,6 +8,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import LibraryMusicOutlinedIcon from "@mui/icons-material/LibraryMusicOutlined";
 import LiveTvOutlinedIcon from "@mui/icons-material/LiveTvOutlined";
 import MovieOutlinedIcon from "@mui/icons-material/MovieOutlined";
+import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import SportsBasketballOutlinedIcon from "@mui/icons-material/SportsBasketballOutlined";
 import SportsEsportsOutlinedIcon from "@mui/icons-material/SportsEsportsOutlined";
@@ -17,9 +18,15 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import hectortube from "../img/logo.png";
-interface IMenu {}
+interface IMenu {
+  setTheme: React.Dispatch<React.SetStateAction<boolean>>;
+  theme: boolean;
+}
 
-const Menu: FC<IMenu> = () => {
+const Menu: FC<IMenu> = ({ setTheme, theme }) => {
+  const themeHandler = () => {
+    setTheme((prev) => !prev);
+  };
   return (
     <Container>
       <Wrapper>
@@ -97,6 +104,10 @@ const Menu: FC<IMenu> = () => {
           <HelpOutlineOutlinedIcon />
           Help
         </Item>
+        <Item onClick={themeHandler}>
+          <SettingsBrightnessOutlinedIcon />
+          {theme ? "Light" : "Dark"} Mode
+        </Item>
       </Wrapper>
     </Container>
   );
@@ -105,9 +116,9 @@ export default Menu;
 
 const Container = styled.div`
   flex: 1;
-  background-color: #202020;
+  background-color: ${({ theme }) => theme.bg};
   height: 100%;
-  color: white;
+  color: ${({ theme }) => theme.text};
   font-size: 14px;
   position: sticky;
   top: 0;
@@ -139,7 +150,7 @@ const Item = styled.div`
 
 const Hr = styled.hr`
   margin: 15px 0px;
-  border: 0.5px solid #373737;
+  border: 0.5px solid ${({ theme }) => theme.soft}; ;
 `;
 
 const Login = styled.div``;

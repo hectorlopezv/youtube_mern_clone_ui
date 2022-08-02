@@ -1,56 +1,61 @@
+import { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import "./App.css";
 import Menu from "./components/menu";
 import Navbar from "./components/navbar";
+import { darkTheme, lightTheme } from "./utils/theme";
 
 function App() {
+  const [theme, setTheme] = useState<boolean>(true);
   return (
-    <Container className="App">
-      <BrowserRouter>
-        <Menu />
-        <Main>
-          <Navbar />
-          <Wrapper>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
+    <ThemeProvider theme={theme ? darkTheme : lightTheme}>
+      <Container className="App">
+        <BrowserRouter>
+          <Menu setTheme={setTheme} theme={theme} />
+          <Main>
+            <Navbar />
+            <Wrapper>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
 
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
 
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
 
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-            <h1>Test</h1>
-          </Wrapper>
-        </Main>
-      </BrowserRouter>
-    </Container>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+              <h1>Test</h1>
+            </Wrapper>
+          </Main>
+        </BrowserRouter>
+      </Container>
+    </ThemeProvider>
   );
 }
 
@@ -61,5 +66,6 @@ const Container = styled.div`
 `;
 const Main = styled.div`
   flex: 7;
+  background-color: ${({ theme }) => theme.bgLighter};
 `;
 const Wrapper = styled.div``;
