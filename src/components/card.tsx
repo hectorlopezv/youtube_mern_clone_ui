@@ -1,19 +1,19 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-interface ICard {}
+import hector from "../img/hector.jpg";
+interface ICard {
+  type: string;
+}
 
-const Card: FC<ICard> = ({}) => {
+const Card: FC<ICard> = ({ type }) => {
   return (
     <Link to="/video/test" style={{ textDecoration: "none" }}>
-      <Container type={""}>
-        <Image
-          type={""}
-          src="https://i9.ytimg.com/vi_webp/k3Vfj-e1Ma4/mqdefault.webp?v=6277c159&sqp=CIjm8JUG&rs=AOn4CLDeKmf_vlMC1q9RBEZu-XQApzm6sA"
-        />
-        <Details type={""}>
+      <Container type={type}>
+        <Image type={type} src={hector} />
+        <Details type={type}>
           <ChannelImage
-            type={""}
+            type={type}
             src="https://yt3.ggpht.com/yti/APfAmoE-Q0ZLJ4vk3vqmV4Kwp0sbrjxLyB8Q4ZgNsiRH=s88-c-k-c0x00ffffff-no-rj-mo"
           />
           <Texts>

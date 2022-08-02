@@ -6,12 +6,12 @@ interface IHome {}
 const Home: FC<IHome> = () => {
   return (
     <Container>
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card /> <Card />
+      <Card type="" />
+      <Card type="" />
+      <Card type="" />
+      <Card type="" />
+      <Card type="" />
+      <Card type="" />
     </Container>
   );
 };
@@ -22,4 +22,3 @@ const Container = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
 `;
-
