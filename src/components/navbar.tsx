@@ -4,13 +4,15 @@ import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Upload from "./upload";
 interface INavbar {}
 
 const Navbar: FC<INavbar> = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [q, setq] = useState("");
 
   const user = useSelector((state: any) => state.user.user);
   console.log("currentUser", user);
@@ -20,8 +22,17 @@ const Navbar: FC<INavbar> = () => {
       <Container>
         <Wrapper>
           <Search>
-            <Input placeholder="Search" />
-            <SearchOutlined />
+            <Input
+              value={q}
+              placeholder="Search"
+              onChange={(e) => setq(e.target.value)}
+            />
+            <SearchOutlined
+              onClick={() => navigate(`/search?q=${q}`)}
+              style={{
+                color: "white",
+              }}
+            />
           </Search>
 
           {user ? (
@@ -91,6 +102,7 @@ const Input = styled.input`
   width: 100%;
   border: none;
   background-color: transparent;
+  color: ${({ theme }) => theme.text};
   &:focus {
     outline: none;
   }

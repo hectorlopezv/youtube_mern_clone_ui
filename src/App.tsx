@@ -5,6 +5,7 @@ import "./App.css";
 import Menu from "./components/menu";
 import Navbar from "./components/navbar";
 import Home from "./pages/home";
+import Search from "./pages/search";
 import SignIn from "./pages/signIn";
 import Video from "./pages/videos";
 import { darkTheme, lightTheme } from "./utils/theme";
@@ -26,7 +27,7 @@ function App() {
                   <Route path="trends" element={<Home type="trend" />} />
                   <Route path="subscriptions" element={<Home type="sub" />} />
                   <Route path="signin" element={<SignIn />} />
-                  <Route path="search" element={<div />} />
+                  <Route path="search" element={<Search />} />
                   <Route path="video">
                     <Route path=":id" element={<Video />} />
                   </Route>
