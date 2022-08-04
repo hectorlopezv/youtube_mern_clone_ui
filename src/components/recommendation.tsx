@@ -21,7 +21,7 @@ const Recommendation: FC<{ tags: any[] }> = ({ tags }) => {
   return (
     <Container>
       {videos.map((video: any) => (
-        <Fragment>
+        <Fragment key={video._id}>
           <Card
             type="sm"
             title={video.title}
