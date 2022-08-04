@@ -2,39 +2,48 @@ import { SearchOutlined } from "@mui/icons-material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Upload from "./upload";
 interface INavbar {}
 
 const Navbar: FC<INavbar> = () => {
+  const [open, setOpen] = useState(false);
+
   const user = useSelector((state: any) => state.user.user);
   console.log("currentUser", user);
-  return (
-    <Container>
-      <Wrapper>
-        <Search>
-          <Input placeholder="Search" />
-          <SearchOutlined />
-        </Search>
 
-        {user ? (
-          <User>
-            <VideoCallOutlinedIcon />
-            <Avatar src={user.img} />
-            {user.name}
-          </User>
-        ) : (
-          <Link to="signin" style={{ textDecoration: "none" }}>
-            <Button>
-              <AccountCircleOutlinedIcon />
-              SIGN IN
-            </Button>
-          </Link>
-        )}
-      </Wrapper>
-    </Container>
+  return (
+    <>
+      <Container>
+        <Wrapper>
+          <Search>
+            <Input placeholder="Search" />
+            <SearchOutlined />
+          </Search>
+
+          {user ? (
+            <User>
+              <VideoCallOutlinedIcon
+                onClick={() => setOpen((predicate) => !predicate)}
+              />
+              <Avatar src={user.img} />
+              {user.name}
+            </User>
+          ) : (
+            <Link to="signin" style={{ textDecoration: "none" }}>
+              <Button>
+                <AccountCircleOutlinedIcon />
+                SIGN IN
+              </Button>
+            </Link>
+          )}
+        </Wrapper>
+      </Container>
+      {open && <Upload setOpen={setOpen} />}
+    </>
   );
 };
 export default Navbar;

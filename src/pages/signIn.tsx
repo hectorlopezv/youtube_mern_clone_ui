@@ -86,6 +86,7 @@ const SignIn: FC<ISignIn> = () => {
       });
       dispatch(loginSuccess(res.data));
       console.log("res", res);
+      navigate("/");
     } catch (error) {
       dispatch(loginFailure());
     }
