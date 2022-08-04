@@ -1,176 +1,19 @@
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import { FC } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import Card from "../components/card";
+import { format } from "timeago.js";
 import Comments from "../components/comments";
-interface IVideo {}
-
-const Video: FC<IVideo> = () => {
-  return (
-    <Container>
-      <Content>
-        <VideoWrapper>
-          <iframe
-            width="100%"
-            height="720"
-            src="https://www.youtube.com/embed/k3Vfj-e1Ma4"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </VideoWrapper>
-        <Title>Test Video</Title>
-        <Details>
-          <Info>7,948,154 views • Jun 22, 2022</Info>
-          <Buttons>
-            <Button>
-              <ThumbUpOutlinedIcon /> 123
-            </Button>
-            <Button>
-              <ThumbDownOffAltOutlinedIcon /> Dislike
-            </Button>
-            <Button>
-              <ReplyOutlinedIcon /> Share
-            </Button>
-            <Button>
-              <AddTaskOutlinedIcon /> Save
-            </Button>
-          </Buttons>
-        </Details>
-        <Hr />
-        <Channel>
-          <ChannelInfo>
-            <Image src="https://yt3.ggpht.com/yti/APfAmoE-Q0ZLJ4vk3vqmV4Kwp0sbrjxLyB8Q4ZgNsiRH=s88-c-k-c0x00ffffff-no-rj-mo" />
-            <ChannelDetail>
-              <ChannelName>Lama Dev</ChannelName>
-              <ChannelCounter>200K subscribers</ChannelCounter>
-              <Description>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Doloribus laborum delectus unde quaerat dolore culpa sit aliquam
-                at. Vitae facere ipsum totam ratione exercitationem. Suscipit
-                animi accusantium dolores ipsam ut.
-              </Description>
-            </ChannelDetail>
-          </ChannelInfo>
-          <Subscribe>SUBSCRIBE</Subscribe>
-        </Channel>
-        <Hr />
-        <Comments />
-      </Content>
-      <Recommendation>
-        <Card
-          type="sm"
-          title={""}
-          views={0}
-          imageUrl={""}
-          createdAt={""}
-          userId={""}
-        />
-        <Card
-          type="sm"
-          title={""}
-          views={0}
-          imageUrl={""}
-          createdAt={""}
-          userId={""}
-        />
-        <Card
-          type="sm"
-          title={""}
-          views={0}
-          imageUrl={""}
-          createdAt={""}
-          userId={""}
-        />
-        <Card
-          type="sm"
-          title={""}
-          views={0}
-          imageUrl={""}
-          createdAt={""}
-          userId={""}
-        />
-        <Card
-          type="sm"
-          title={""}
-          views={0}
-          imageUrl={""}
-          createdAt={""}
-          userId={""}
-        />
-        <Card
-          type="sm"
-          title={""}
-          views={0}
-          imageUrl={""}
-          createdAt={""}
-          userId={""}
-        />
-        <Card
-          type="sm"
-          title={""}
-          views={0}
-          imageUrl={""}
-          createdAt={""}
-          userId={""}
-        />
-        <Card
-          type="sm"
-          title={""}
-          views={0}
-          imageUrl={""}
-          createdAt={""}
-          userId={""}
-        />
-        <Card
-          type="sm"
-          title={""}
-          views={0}
-          imageUrl={""}
-          createdAt={""}
-          userId={""}
-        />
-        <Card
-          type="sm"
-          title={""}
-          views={0}
-          imageUrl={""}
-          createdAt={""}
-          userId={""}
-        />
-        <Card
-          type="sm"
-          title={""}
-          views={0}
-          imageUrl={""}
-          createdAt={""}
-          userId={""}
-        />
-        <Card
-          type="sm"
-          title={""}
-          views={0}
-          imageUrl={""}
-          createdAt={""}
-          userId={""}
-        />
-        <Card
-          type="sm"
-          title={""}
-          views={0}
-          imageUrl={""}
-          createdAt={""}
-          userId={""}
-        />
-      </Recommendation>
-    </Container>
-  );
-};
-export default Video;
+import Recommendation from "../components/recommendation";
+import { subscription } from "../store/userSlice";
+import { dislike, fetchSuccess, like } from "../store/videoSlice";
 
 const Container = styled.div`
   display: flex;
@@ -218,9 +61,6 @@ const Hr = styled.hr`
   border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
-const Recommendation = styled.div`
-  flex: 2;
-`;
 const Channel = styled.div`
   display: flex;
   justify-content: space-between;
@@ -257,6 +97,7 @@ const ChannelCounter = styled.span`
 const Description = styled.p`
   font-size: 14px;
 `;
+
 const Subscribe = styled.button`
   background-color: #cc1a00;
   font-weight: 500;
@@ -267,3 +108,112 @@ const Subscribe = styled.button`
   padding: 10px 20px;
   cursor: pointer;
 `;
+
+const VideoFrame = styled.video`
+  max-height: 720px;
+  width: 100%;
+  object-fit: cover;
+`;
+
+const Video = () => {
+  const { currentUser } = useSelector((state: any) => state.user);
+  const { currentVideo } = useSelector((state: any) => state.video);
+  const dispatch = useDispatch();
+
+  const path = useLocation().pathname.split("/")[2];
+
+  const [channel, setChannel] = useState<any>({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(`/videos/find/${path}`);
+        const channelRes = await axios.get(
+          `/users/find/${videoRes.data.userId}`
+        );
+        setChannel(channelRes.data);
+        dispatch(fetchSuccess(videoRes.data));
+      } catch (err) {}
+    };
+    fetchData();
+  }, [path, dispatch]);
+
+  const handleLike = async () => {
+    await axios.put(`/users/like/${currentVideo._id}`);
+    dispatch(like(currentUser._id));
+  };
+  const handleDislike = async () => {
+    await axios.put(`/users/dislike/${currentVideo._id}`);
+    dispatch(dislike(currentUser._id));
+  };
+
+  const handleSub = async () => {
+    currentUser.subscribedUsers.includes(channel._id)
+      ? await axios.put(`/users/unsub/${channel._id}`)
+      : await axios.put(`/users/sub/${channel._id}`);
+    dispatch(subscription(channel._id));
+  };
+
+  //TODO: DELETE VIDEO FUNCTIONALITY
+
+  return (
+    <Container>
+      <Content>
+        <VideoWrapper>
+          <VideoFrame src={currentVideo.videoUrl} controls />
+        </VideoWrapper>
+        <Title>{currentVideo.title}</Title>
+        <Details>
+          <Info>
+            {currentVideo.views} views • {format(currentVideo.createdAt)}
+          </Info>
+          <Buttons>
+            <Button onClick={handleLike}>
+              {currentVideo.likes?.includes(currentUser?._id) ? (
+                <ThumbUpIcon />
+              ) : (
+                <ThumbUpOutlinedIcon />
+              )}{" "}
+              {currentVideo.likes?.length}
+            </Button>
+            <Button onClick={handleDislike}>
+              {currentVideo.dislikes?.includes(currentUser?._id) ? (
+                <ThumbDownIcon />
+              ) : (
+                <ThumbDownOffAltOutlinedIcon />
+              )}{" "}
+              Dislike
+            </Button>
+            <Button>
+              <ReplyOutlinedIcon /> Share
+            </Button>
+            <Button>
+              <AddTaskOutlinedIcon /> Save
+            </Button>
+          </Buttons>
+        </Details>
+        <Hr />
+        <Channel>
+          <ChannelInfo>
+            <Image src={channel.img} />
+            <ChannelDetail>
+              <ChannelName>{channel.name}</ChannelName>
+              <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
+              <Description>{currentVideo.desc}</Description>
+            </ChannelDetail>
+          </ChannelInfo>
+          <Subscribe onClick={handleSub}>
+            {currentUser?.subscribedUsers?.includes(channel._id)
+              ? "SUBSCRIBED"
+              : "SUBSCRIBE"}
+          </Subscribe>
+        </Channel>
+        <Hr />
+        <Comments videoId={currentVideo._id} />
+      </Content>
+      <Recommendation tags={currentVideo.tags} />
+    </Container>
+  );
+};
+
+export default Video;

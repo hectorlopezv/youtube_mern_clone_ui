@@ -25,7 +25,7 @@ interface IMenu {
 }
 
 const Menu: FC<IMenu> = ({ setTheme, theme }) => {
-  const user = useSelector((state: any) => state.global.user);
+  const user = useSelector((state: any) => state.user.user);
   const themeHandler = () => {
     setTheme((prev) => !prev);
   };

@@ -1,6 +1,6 @@
+import { FC } from "react";
 import styled from "styled-components";
 import Comment from "./comment";
-
 const Container = styled.div``;
 
 const NewComment = styled.div`
@@ -25,7 +25,7 @@ const Input = styled.input`
   width: 100%;
 `;
 
-const Comments = () => {
+const Comments: FC<{ videoId: string }> = () => {
   return (
     <Container>
       <NewComment>

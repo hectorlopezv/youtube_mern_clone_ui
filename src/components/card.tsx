@@ -10,6 +10,7 @@ interface ICard {
   imageUrl: string;
   createdAt: string;
   userId: string;
+  id: string;
 }
 
 const Card: FC<ICard> = ({
@@ -19,6 +20,7 @@ const Card: FC<ICard> = ({
   views,
   createdAt,
   userId,
+  id,
 }) => {
   const [channel, setChannel] = useState<{ img?: string; name?: string }>({});
   useEffect(() => {
@@ -31,7 +33,7 @@ const Card: FC<ICard> = ({
   }, [userId]);
 
   return (
-    <Link to="/video/test" style={{ textDecoration: "none" }}>
+    <Link to={`/video/${id}`} style={{ textDecoration: "none" }}>
       <Container type={type}>
         <Image type={type} src={imageUrl} />
         <Details type={type}>

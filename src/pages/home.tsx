@@ -29,6 +29,7 @@ const Home: FC<IHome> = ({ type }) => {
               views={video.views}
               createdAt={video.createAt}
               userId={video.userId}
+              id={video._id}
             />
           </Fragment>
         );

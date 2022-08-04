@@ -9,7 +9,7 @@ import styled from "styled-components";
 interface INavbar {}
 
 const Navbar: FC<INavbar> = () => {
-  const user = useSelector((state: any) => state.global.user);
+  const user = useSelector((state: any) => state.user.user);
   console.log("currentUser", user);
   return (
     <Container>
@@ -22,7 +22,7 @@ const Navbar: FC<INavbar> = () => {
         {user ? (
           <User>
             <VideoCallOutlinedIcon />
-            <Avatar />
+            <Avatar src={user.img} />
             {user.name}
           </User>
         ) : (

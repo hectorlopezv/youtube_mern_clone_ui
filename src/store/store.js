@@ -11,7 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import userReducer from "./userSlice";
-import videosReducer from "./videoSlice";
+import videoReducer from "./videoSlice";
 
 const persistConfig = {
   key: "root",
@@ -19,17 +19,14 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({
-  global: userReducer,
-  videos: videosReducer,
-});
+const rootReducer = combineReducers({ user: userReducer, video: videoReducer });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 export const store = configureStore({
   reducer: persistedReducer,
-  devTools: process.env.NODE_ENV !== "production",
-  middleware: (getDefaultMiddleWare) =>
-    getDefaultMiddleWare({
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },

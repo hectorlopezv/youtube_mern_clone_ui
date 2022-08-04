@@ -1,35 +1,52 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  user: null,
+  currentVideo: null,
   loading: false,
   error: false,
 };
 
-export const videosSlice = createSlice({
-  name: "videos",
+export const videoSlice = createSlice({
+  name: "video",
   initialState,
   reducers: {
-    loginStart: (state) => {
+    fetchStart: (state) => {
       state.loading = true;
     },
-    loginSuccess: (state, action) => {
+    fetchSuccess: (state, action) => {
       state.loading = false;
-      state.user = action.payload;
+      state.currentVideo = action.payload;
     },
-    loginFailure: (state) => {
+    fetchFailure: (state) => {
       state.loading = false;
       state.error = true;
     },
-    logout: (state) => {
-      state.user = null;
-      state.loading = false;
-      state.error = false;
+    like: (state, action) => {
+      if (!state.currentVideo.likes.includes(action.payload)) {
+        state.currentVideo.likes.push(action.payload);
+        state.currentVideo.dislikes.splice(
+          state.currentVideo.dislikes.findIndex(
+            (userId) => userId === action.payload
+          ),
+          1
+        );
+      }
+    },
+    dislike: (state, action) => {
+      if (!state.currentVideo.dislikes.includes(action.payload)) {
+        state.currentVideo.dislikes.push(action.payload);
+        state.currentVideo.likes.splice(
+          state.currentVideo.likes.findIndex(
+            (userId) => userId === action.payload
+          ),
+          1
+        );
+      }
     },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } =
-  videosSlice.actions;
+export const { fetchStart, fetchSuccess, fetchFailure, like, dislike } =
+  videoSlice.actions;
 
-export default videosSlice.reducer;
+export default videoSlice.reducer;
