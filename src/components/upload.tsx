@@ -101,7 +101,7 @@ const Upload = ({ setOpen }: { setOpen: any }) => {
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        urlType === "imgUrl"
+        urlType === "imageUrl"
           ? setImgPerc(Math.round(progress))
           : setVideoPerc(Math.round(progress));
         switch (snapshot.state) {
@@ -131,7 +131,7 @@ const Upload = ({ setOpen }: { setOpen: any }) => {
   }, [video]);
 
   useEffect(() => {
-    img && uploadFile(img, "imgUrl");
+    img && uploadFile(img, "imageUrl");
   }, [img]);
 
   const handleUpload = async (e: any) => {
