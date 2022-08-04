@@ -1,11 +1,16 @@
 import { SearchOutlined } from "@mui/icons-material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
+
 import { FC } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 interface INavbar {}
 
 const Navbar: FC<INavbar> = () => {
+  const user = useSelector((state: any) => state.global.user);
+  console.log("currentUser", user);
   return (
     <Container>
       <Wrapper>
@@ -14,18 +19,38 @@ const Navbar: FC<INavbar> = () => {
           <SearchOutlined />
         </Search>
 
-        <Link to="signin" style={{ textDecoration: "none" }}>
-          <Button>
-            <AccountCircleOutlinedIcon />
-            SIGN IN
-          </Button>
-        </Link>
+        {user ? (
+          <User>
+            <VideoCallOutlinedIcon />
+            <Avatar />
+            {user.name}
+          </User>
+        ) : (
+          <Link to="signin" style={{ textDecoration: "none" }}>
+            <Button>
+              <AccountCircleOutlinedIcon />
+              SIGN IN
+            </Button>
+          </Link>
+        )}
       </Wrapper>
     </Container>
   );
 };
 export default Navbar;
-
+const Avatar = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #999;
+`;
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text};
+`;
 const Container = styled.div`
   position: sticky;
   top: 0;
