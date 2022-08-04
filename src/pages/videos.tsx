@@ -62,19 +62,110 @@ const Video: FC<IVideo> = () => {
         <Comments />
       </Content>
       <Recommendation>
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
+        <Card
+          type="sm"
+          title={""}
+          views={0}
+          imageUrl={""}
+          createdAt={""}
+          userId={""}
+        />
+        <Card
+          type="sm"
+          title={""}
+          views={0}
+          imageUrl={""}
+          createdAt={""}
+          userId={""}
+        />
+        <Card
+          type="sm"
+          title={""}
+          views={0}
+          imageUrl={""}
+          createdAt={""}
+          userId={""}
+        />
+        <Card
+          type="sm"
+          title={""}
+          views={0}
+          imageUrl={""}
+          createdAt={""}
+          userId={""}
+        />
+        <Card
+          type="sm"
+          title={""}
+          views={0}
+          imageUrl={""}
+          createdAt={""}
+          userId={""}
+        />
+        <Card
+          type="sm"
+          title={""}
+          views={0}
+          imageUrl={""}
+          createdAt={""}
+          userId={""}
+        />
+        <Card
+          type="sm"
+          title={""}
+          views={0}
+          imageUrl={""}
+          createdAt={""}
+          userId={""}
+        />
+        <Card
+          type="sm"
+          title={""}
+          views={0}
+          imageUrl={""}
+          createdAt={""}
+          userId={""}
+        />
+        <Card
+          type="sm"
+          title={""}
+          views={0}
+          imageUrl={""}
+          createdAt={""}
+          userId={""}
+        />
+        <Card
+          type="sm"
+          title={""}
+          views={0}
+          imageUrl={""}
+          createdAt={""}
+          userId={""}
+        />
+        <Card
+          type="sm"
+          title={""}
+          views={0}
+          imageUrl={""}
+          createdAt={""}
+          userId={""}
+        />
+        <Card
+          type="sm"
+          title={""}
+          views={0}
+          imageUrl={""}
+          createdAt={""}
+          userId={""}
+        />
+        <Card
+          type="sm"
+          title={""}
+          views={0}
+          imageUrl={""}
+          createdAt={""}
+          userId={""}
+        />
       </Recommendation>
     </Container>
   );

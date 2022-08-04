@@ -1,17 +1,38 @@
-import { FC } from "react";
+import axios from "axios";
+import { FC, Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
 import Card from "../components/card";
-interface IHome {}
 
-const Home: FC<IHome> = () => {
+interface IHome {
+  type?: "random" | "trend" | "sub";
+}
+
+const Home: FC<IHome> = ({ type }) => {
+  const [videos, setVideos] = useState([]);
+  useEffect(() => {
+    const fetchVideos = async () => {
+      const response = await axios.get(`/videos/${type}`);
+      console.log(response);
+      setVideos(response.data);
+    };
+    fetchVideos();
+  }, [type]);
   return (
     <Container>
-      <Card type="" />
-      <Card type="" />
-      <Card type="" />
-      <Card type="" />
-      <Card type="" />
-      <Card type="" />
+      {videos.map((video: any) => {
+        return (
+          <Fragment key={video._id}>
+            <Card
+              type=""
+              imageUrl={video.imageUrl}
+              title={video.title}
+              views={video.views}
+              createdAt={video.createAt}
+              userId={video.userId}
+            />
+          </Fragment>
+        );
+      })}
     </Container>
   );
 };

@@ -1,25 +1,47 @@
-import { FC } from "react";
+import axios from "axios";
+import { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import hector from "../img/hector.jpg";
+import { format } from "timeago.js";
 interface ICard {
   type: string;
+  title: string;
+  views: number;
+  imageUrl: string;
+  createdAt: string;
+  userId: string;
 }
 
-const Card: FC<ICard> = ({ type }) => {
+const Card: FC<ICard> = ({
+  type,
+  imageUrl,
+  title,
+  views,
+  createdAt,
+  userId,
+}) => {
+  const [channel, setChannel] = useState<{ img?: string; name?: string }>({});
+  useEffect(() => {
+    const fetchChannel = async () => {
+      const response = await axios.get(`/users/find/${userId}`);
+      console.log(response);
+      setChannel(response.data);
+    };
+    fetchChannel();
+  }, [userId]);
+
   return (
     <Link to="/video/test" style={{ textDecoration: "none" }}>
       <Container type={type}>
-        <Image type={type} src={hector} />
+        <Image type={type} src={imageUrl} />
         <Details type={type}>
-          <ChannelImage
-            type={type}
-            src="https://yt3.ggpht.com/yti/APfAmoE-Q0ZLJ4vk3vqmV4Kwp0sbrjxLyB8Q4ZgNsiRH=s88-c-k-c0x00ffffff-no-rj-mo"
-          />
+          <ChannelImage type={type} src={channel.img} />
           <Texts>
-            <Title>Test Video</Title>
-            <ChannelName>Lama Dev</ChannelName>
-            <Info>660,908 views • 1 day ago</Info>
+            <Title>{title}</Title>
+            <ChannelName>{channel.name}</ChannelName>
+            <Info>
+              {views} • {format(createdAt)}
+            </Info>
           </Texts>
         </Details>
       </Container>
@@ -33,7 +55,7 @@ interface TypeProps {
   type: string;
 }
 const Container = styled.div<TypeProps>`
-  width: ${(props) => props.type !== "sm" && "360px"};
+  width: ${(props) => props.type !== "sm" && "320px"};
   margin-bottom: ${(props) => (props.type === "sm" ? "10px" : "45px")};
   cursor: pointer;
   display: ${(props) => props.type === "sm" && "flex"};
